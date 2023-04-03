@@ -39,9 +39,21 @@ class BinHeap:
 
     def minChild(self,i):
       """ Find the minimum value among all child nodes of the node whose index is i that is specified in the parameter."""
-      numChild = self.num_branch-((i*self.num_branch+1)-self.currentSize)  # Calculate how many children the node i has
-      minIndex = self.currentSize-(numChild-1)  # Find the minimum index among the children
-      maxIndex = self.currentSize  # Find the maximum index among all children
+      # (i*self.num_branch+1) is the index of rightmost child node of the node i for n-ary heap whatever n is
+      if i*self.num_branch+1 <= self.currentSize:      # If i*self.num_branch+1 <= self.currentSize, it means node i has all n child nodes.
+         # Calculate how many children the node i has
+         numChild = self.num_branch                    # Thus, the number of child nodes is exactly the number of branch.
+         # Find the minimum index among the children
+         minIndex = (i*self.num_branch+1)-(self.num_branch-1)
+         # Find the maximum index among all children
+         maxIndex = i*self.num_branch+1
+      else:                                            # If i*self.num_branch+1 > self.currentSize, it means node i has less than n child nodes.
+         # Calculate how many children the node i has
+         numChild = self.num_branch-((i*self.num_branch+1)-self.currentSize)  # ((i*self.num_branch+1)-self.currentSize) represents the difference between the number of existing child nodes and all nodes
+         # Find the minimum index among the children
+         minIndex = self.currentSize-(numChild-1)  
+         # Find the maximum index among all children
+         maxIndex = self.currentSize  
 
       minVal = self.heapList[minIndex]  # Record the minimum value among all children
       minVal_ind = minIndex  # Record the index of the minimum value among all children
